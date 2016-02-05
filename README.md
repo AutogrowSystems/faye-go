@@ -1,6 +1,6 @@
 # Faye server in Go
 
-This is a Faye server written it in go.  It is still experimentl at this stage.
+This is a Faye server written it in go.  It is still experimental at this stage.
 
 ## Build
 
