@@ -7,12 +7,12 @@ type Level int
 
 // Logging levels.
 const (
-	CRITICAL Level = iota
-	ERROR
-	WARNING
-	NOTICE
-	INFO
-	DEBUG
+	CRITICAL Level = 1
+	ERROR    Level = 2
+	WARNING  Level = 3
+	NOTICE   Level = 4
+	INFO     Level = 5
+	DEBUG    Level = 6
 )
 
 var (

@@ -89,7 +89,7 @@ func (h *BaseHandler) SetFormatter(f Formatter) {
 }
 
 func (h *BaseHandler) FilterAndFormat(rec *Record) string {
-	if rec.Level > h.Level {
+	if h.Level > rec.Level {
 		return ""
 	}
 	return h.Formatter.Format(rec)
