@@ -5,7 +5,7 @@ This is a Faye server written it in go.  It is still experimentl at this stage.
 ## Build
 
     $ go get github.com/AutogrowSystems/faye-go
-    $ go build github.com/AutogrowSystems/faye-go/main/faye_server.go
+    $ GO15VENDOREXPIMENT=1 go build github.com/AutogrowSystems/faye-go/main/faye_server.go
 
 ## Run
 
