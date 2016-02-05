@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"github.com/AutogrowSystems/faye-go"
 	"github.com/AutogrowSystems/faye-go/adapters"
 	l "github.com/cenkalti/log"
@@ -14,14 +15,20 @@ func OurLoggingHandler(pattern string, h http.Handler) http.Handler {
 	})
 }
 
-var cfg = struct {
+type config struct {
 	Host   string
 	Port   string
 	Public string
-}{"127.0.0.1", "8000", "src/github.com/AutogrowSystems/faye-go/public"}
+}
 
 func main() {
 	// TODO: read config file
+	var cfg config
+
+	flag.StringVar(&cfg.Port, "p", "8000", "Port number to serve on")
+	flag.StringVar(&cfg.Host, "h", "127.0.0.1", "Port number to serve on")
+	flag.StringVar(&cfg.Public, "public", "src/github.com/AutogrowSystems/faye-go/public", "Port number to serve on")
+	flag.Parse()
 
 	engineLog := l.NewLogger("engine")
 	serverLog := l.NewLogger("server")
