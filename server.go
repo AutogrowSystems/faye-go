@@ -2,8 +2,8 @@ package faye
 
 import (
 	"encoding/json"
-	"github.com/roncohen/faye-go/protocol"
-	"github.com/roncohen/faye-go/utils"
+	"github.com/AutogrowSystems/faye-go/protocol"
+	"github.com/AutogrowSystems/faye-go/utils"
 	"io"
 )
 

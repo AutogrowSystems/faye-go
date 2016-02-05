@@ -1,10 +1,10 @@
 package transport
 
 import (
+	"github.com/AutogrowSystems/faye-go/protocol"
+	"github.com/AutogrowSystems/faye-go/utils"
 	"github.com/gorilla/websocket"
-	"github.com/roncohen/faye-go/utils"
 	"io"
-	"github.com/roncohen/faye-go/protocol"
 )
 
 const WebSocketConnectionPriority = 10

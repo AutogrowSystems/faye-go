@@ -2,8 +2,8 @@ package memory
 
 import (
 	// "container/list"
-	// "github.com/roncohen/faye-go/engines"
-	"github.com/roncohen/faye-go/protocol"
+	// "github.com/AutogrowSystems/faye-go/engines"
+	"github.com/AutogrowSystems/faye-go/protocol"
 	// "log"
 	"testing"
 )

@@ -1,8 +1,8 @@
 package transport
 
 import (
-	"github.com/roncohen/faye-go/protocol"
-	// "github.com/roncohen/faye-go/utils"
+	"github.com/AutogrowSystems/faye-go/protocol"
+	// "github.com/AutogrowSystems/faye-go/utils"
 )
 
 type InternalConnection struct {

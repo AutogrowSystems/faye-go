@@ -1,10 +1,10 @@
 package memory
 
 import (
+	"github.com/AutogrowSystems/faye-go/protocol"
+	"github.com/AutogrowSystems/faye-go/utils"
 	creg "github.com/roncohen/cleaningRegister"
 	"time"
-	"github.com/roncohen/faye-go/protocol"
-	"github.com/roncohen/faye-go/utils"
 )
 
 type ClientRegister struct {
