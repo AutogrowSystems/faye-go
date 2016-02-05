@@ -30,7 +30,7 @@ Simply run it like so:
 
 ## Acknowledgements
 
-* [roncohen](https://github.com/roncohen)
+* [Ron Cohen](https://github.com/roncohen)
 
 ## Licence
 
@@ -38,6 +38,7 @@ Simply run it like so:
 The MIT License (MIT)
 
 Copyright (c) 2014 Ron Cohen
+Copyright (c) 2016 Autogrow Systems Limited
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
