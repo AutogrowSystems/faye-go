@@ -1,39 +1,29 @@
-# Faye + Go
+# Faye server in Go
 
+This is a Faye server written it in go.  It is still experimentl at this stage.
 
-Experimental
+## Build
 
-## Usage
+    $ go get github.com/AutogrowSystems/faye-go
+    $ go build github.com/AutogrowSystems/faye-go/main/faye_server.go
 
-```go
+## Run
 
-package main
+Here's the usage for it:
 
-import (
-	"github.com/AutogrowSystems/faye-go"
-	"github.com/AutogrowSystems/faye-go/adapters"
-	"log"
-	"net/http"
-)
+    Usage of faye_server:
+      -h string
+        	Port number to serve on (default "127.0.0.1")
+      -p string
+        	Port number to serve on (default "8000")
+      -public string
+        	Port number to serve on (default "src/github.com/AutogrowSystems/faye-go/public")
 
-func OurLoggingHandler(pattern string, h http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		log.Printf("%v: %+v", pattern, *r.URL)
-		h.ServeHTTP(w, r)
-	})
-}
+Simply run it like so:
 
-func main() {
-	fayeServer := faye.NewServer(faye.NewEngine())
-	http.Handle("/faye", adapters.FayeHandler(fayeServer))
+    $ ./faye_server -p 8099
 
-	// Also serve up some static files and show off 
-	// the wonderful go http handler chain
-	http.Handle("/", OurLoggingHandler("/", http.FileServer(http.Dir("src/github.com/roncohen/faye-test/static"))))
+## Features
 
-	err := http.ListenAndServe(":8000", nil)
-	if err != nil {
-		panic("ListenAndServe: " + err.Error())
-	}
-}
-```
+* websockets
+* long-polling
