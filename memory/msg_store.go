@@ -2,7 +2,7 @@ package memory
 
 import (
 	"container/list"
-	"github.com/roncohen/faye-go/protocol"
+	"github.com/AutogrowSystems/faye-go/protocol"
 )
 
 type MemoryMsgStore struct {
