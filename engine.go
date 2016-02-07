@@ -53,6 +53,7 @@ func (m Engine) AddSubscription(clientId string, subscriptions []string) {
 func (m Engine) Handshake(request protocol.Message, conn protocol.Connection) string {
 	newClientId := ""
 	version := request["version"].(string)
+	m.logger.Debugf("New handshake request received for Bayeux Protocol %s", version)
 
 	response := m.responseFromRequest(request)
 	response["successful"] = false
@@ -69,6 +70,8 @@ func (m Engine) Handshake(request protocol.Message, conn protocol.Connection) st
 			"successful":               true,
 		})
 
+		m.logger.Debugf("New client given ID of %s, advised: %+v", newClientId, response["advice"])
+
 	} else {
 		response["error"] = fmt.Sprintf("Only supported version is '%s'", protocol.BAYEUX_VERSION)
 	}
@@ -79,6 +82,7 @@ func (m Engine) Handshake(request protocol.Message, conn protocol.Connection) st
 }
 
 func (m Engine) Connect(request protocol.Message, client *protocol.Client, conn protocol.Connection) {
+	m.logger.Debugf("Connect request from %s", client.Id())
 	response := m.responseFromRequest(request)
 	response["successful"] = true
 
@@ -99,6 +103,7 @@ func (m Engine) SubscribeService(chanOut chan<- protocol.Message, subscription [
 }
 
 func (m Engine) SubscribeClient(request protocol.Message, client *protocol.Client) {
+	m.logger.Debugf("Subscribe request from %s", client.Id())
 	response := m.responseFromRequest(request)
 	response["successful"] = true
 
@@ -125,6 +130,7 @@ func (m Engine) SubscribeClient(request protocol.Message, client *protocol.Clien
 }
 
 func (m Engine) Disconnect(request protocol.Message, client *protocol.Client, conn protocol.Connection) {
+	m.logger.Debugf("Disconnect request from %s", client.Id())
 	response := m.responseFromRequest(request)
 	response["successful"] = true
 	clientId := request.ClientId()
