@@ -2,6 +2,7 @@ package utils
 
 import (
 	"log"
+	"sync"
 )
 
 func CompareStringSlices(a, b []string) bool {
@@ -20,27 +21,36 @@ func CompareStringSlices(a, b []string) bool {
 
 type StringSet struct {
 	values map[string]bool
+	mutex  *sync.RWMutex
 }
 
 func NewStringSet() StringSet {
-	return StringSet{make(map[string]bool)}
+	return StringSet{make(map[string]bool), &sync.RWMutex{}}
 }
 
 func (c StringSet) Add(value string) {
+	c.mutex.Lock()
+	defer c.mutex.Unlock()
 	c.values[value] = true
 }
 
 func (c StringSet) AddMany(values []string) {
+	c.mutex.Lock()
+	defer c.mutex.Unlock()
 	for _, value := range values {
 		c.values[value] = true
 	}
 }
 
 func (c StringSet) Remove(value string) {
+	c.mutex.Lock()
+	defer c.mutex.Unlock()
 	delete(c.values, value)
 }
 
 func (c StringSet) Has(value string) bool {
+	c.mutex.RLock()
+	defer c.mutex.RUnlock()
 	_, ok := c.values[value]
 	return ok
 }
