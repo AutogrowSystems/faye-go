@@ -51,10 +51,10 @@ func WebsocketServer(m Server) func(*websocket.Conn) {
 			err := ws.ReadJSON(&data)
 			if err != nil {
 				if err == io.EOF {
-					m.Logger().Debugf("EOF while reading from socket")
+					m.Logger().Errorf("EOF while reading from socket")
 					return
 				} else {
-					m.Logger().Debugf("While reading from socket: %s", err)
+					m.Logger().Errorf("While reading from socket: %s", err)
 					return
 				}
 			}
