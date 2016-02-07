@@ -137,39 +137,40 @@ func (m Engine) Disconnect(request protocol.Message, client *protocol.Client, co
 	m.logger.Debugf("Client %s disconnected", clientId)
 }
 
-func (m Engine) Publish(request protocol.Message) {
+func (m Engine) Publish(request protocol.Message, conn protocol.Connection) {
 	requestingClient := m.clients.GetClient(request.ClientId())
 
 	if requestingClient == nil {
 		m.logger.Warnf("PUBLISH from unknown client %s", request)
-	} else {
-		response := m.responseFromRequest(request)
-		response["successful"] = true
-		data := request["data"]
-		channel := request.Channel()
-
-		m.clients.GetClient(request.ClientId()).Queue(response)
-
-		go func() {
-			// Prepare msg to send to subscribers
-			msg := protocol.Message{}
-			msg["channel"] = channel.Name()
-			msg["data"] = data
-			// TODO: Missing ID
-
-			msg.SetClientId(request.ClientId())
-
-			// Get clients with subscriptions
-			recipients := m.clients.GetClients(channel.Expand())
-			m.logger.Debugf("PUBLISH from %s on %s to %d recipients", request.ClientId(), channel, len(recipients))
-			// Queue messages
-			for _, c := range recipients {
-				m.clients.GetClient(c).Queue(msg)
-			}
-		}()
-
+		return
 	}
 
+	response := m.responseFromRequest(request)
+	response["successful"] = true
+	data := request["data"]
+	channel := request.Channel()
+	response.SetClientId(request.ClientId())
+
+	m.logger.Debugf("Publish request from %s to %s", request.ClientId(), channel.Name())
+
+	conn.Send([]protocol.Message{response})
+
+	go func() {
+		// Prepare msg to send to subscribers
+		msg := protocol.Message{}
+		msg["channel"] = channel.Name()
+		msg["data"] = data
+
+		// Get clients with subscriptions
+		recipients := m.clients.GetClients(channel.Expand())
+		m.logger.Debugf("PUBLISH from %s on %s to %d recipients", request.ClientId(), channel.Name(), len(recipients))
+		// Queue messages
+		for _, c := range recipients {
+			m.clients.GetClient(c).Queue(msg)
+		}
+	}()
+
+}
 }
 
 // Publish message directly to client

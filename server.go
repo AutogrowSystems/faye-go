@@ -57,7 +57,8 @@ func (s Server) HandleMessage(msg protocol.Message, conn protocol.Connection) {
 		// } else if channel.IsService() {
 		// 	s.HandleService(msg)
 	} else {
-		s.HandlePublish(msg)
+		// TODO: go this
+		s.HandlePublish(msg, conn)
 	}
 }
 
@@ -99,7 +100,7 @@ func (s Server) HandleMeta(msg protocol.Message, conn protocol.Connection) proto
 	return nil
 }
 
-func (s Server) HandlePublish(msg protocol.Message) {
+func (s Server) HandlePublish(msg protocol.Message, conn protocol.Connection) {
 	// Publish
 	// clientId := msg.ClientId()
 	// if _client, isConnected := s.engine.GetClient(clientId); !isConnected {
@@ -108,7 +109,7 @@ func (s Server) HandlePublish(msg protocol.Message) {
 	// }
 
 	// log.Printf("Client %s publishing to %s", clientId, msg.Channel())
-	s.engine.Publish(msg)
+	s.engine.Publish(msg, conn)
 }
 
 func JSONWrite(w io.Writer, obj interface{}) error {
