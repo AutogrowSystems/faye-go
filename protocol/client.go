@@ -76,6 +76,9 @@ func (c *Client) Connect(timeout int, interval int, responseMsg Message, connect
 	c.mutex.Lock()
 	defer c.mutex.Unlock()
 
+	responseMsg["clientId"] = c.Id()
+
+	c.connection = connection
 	c.lastSession = NewSession(c, connection, timeout, responseMsg, c.logger)
 	c.responseMsg = responseMsg
 
