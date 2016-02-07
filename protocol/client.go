@@ -95,7 +95,7 @@ func (c *Client) SetConnection(connection Connection) {
 func (c Client) Queue(msg Message) {
 	c.mutex.Lock()
 	defer c.mutex.Unlock()
-
+	msg.SetClientId(c.clientId)
 	c.msgStore.EnqueueMessages([]Message{msg})
 	c.flushMsgs()
 }
