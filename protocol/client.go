@@ -121,25 +121,33 @@ func (c Client) IsExpired() bool {
 	return false
 }
 
+func (c Client) IsConnected() bool {
+	c.logger.Debugf("Client %s connected?: %t, %t", c.clientId, c.isConnected, c.connection.IsConnected())
+	return c.isConnected && c.connection != nil && c.connection.IsConnected()
+}
+
 func (c Client) flushMsgs() {
-	if c.isConnected && c.connection != nil && c.connection.IsConnected() {
+	if c.IsConnected() {
+
 		msgs := c.msgStore.GetAndClearMessages()
 		if len(msgs) > 0 {
 
-			var msgsWithConnect []Message
-			if c.connection.IsSingleShot() {
-				msgsWithConnect = append(msgs, c.responseMsg)
+			var msgsToSend []Message
 
+			if c.responseMsg != nil {
+				msgsToSend = append(msgsToSend, c.responseMsg)
+				msgsToSend = append(msgsToSend, msgs...)
 			} else {
-				msgsWithConnect = msgs
+				msgsToSend = msgs
 			}
-			c.logger.Debugf("Sending %d msgs to %s on %s", len(msgsWithConnect), c.clientId, reflect.TypeOf(c.connection))
 
-			err := c.connection.Send(msgsWithConnect)
+			c.logger.Debugf("Sending %d msgs to %s on %s", len(msgsToSend), c.clientId, reflect.TypeOf(c.connection))
+			err := c.connection.Send(msgsToSend)
 
 			// failed, so requeue
 			if err != nil {
-				c.logger.Debugf("Was unable to send to %s requeued %d messages", c.clientId, len(msgs))
+				c.logger.Errorf("ERROR: %+v", err)
+				c.logger.Debugf("Was unable to send to %s, requeued %d messages", c.clientId, len(msgs))
 				c.msgStore.EnqueueMessages(msgs)
 			} else {
 				c.responseMsg = nil
@@ -147,6 +155,6 @@ func (c Client) flushMsgs() {
 			}
 		}
 	} else {
-		c.logger.Debugf("Not connected for %s", c.clientId)
+		c.logger.Debugf("Not connected to %s", c.clientId)
 	}
 }
