@@ -4,6 +4,7 @@ import (
 	"github.com/AutogrowSystems/faye-go/protocol"
 	"github.com/AutogrowSystems/faye-go/utils"
 	creg "github.com/roncohen/cleaningRegister"
+	"sync"
 	"time"
 )
 
@@ -11,6 +12,7 @@ type ClientRegister struct {
 	clients              *creg.CleaningRegister
 	subscriptionRegister *SubscriptionRegister
 	logger               utils.Logger
+	lock                 *sync.RWMutex
 }
 
 func NewClientRegister(logger utils.Logger) *ClientRegister {
@@ -31,21 +33,28 @@ func NewClientRegister(logger utils.Logger) *ClientRegister {
 		clients:              creg.New(1*time.Minute, shouldRemove, removed),
 		subscriptionRegister: subReg,
 		logger:               logger,
+		lock:                 &sync.RWMutex{},
 	}
 
 	return &clientreg
 }
 
 func (cr ClientRegister) AddClient(client *protocol.Client) {
+	cr.lock.Lock()
+	defer cr.lock.Unlock()
 	cr.clients.Put(client.Id(), client)
 }
 
 func (cr ClientRegister) removeClient(clientId string) {
 	// TODO: More cleanups
+	cr.lock.Lock()
+	defer cr.lock.Unlock()
 	cr.subscriptionRegister.RemoveClient(clientId)
 }
 
 func (cr ClientRegister) GetClient(clientId string) *protocol.Client {
+	cr.lock.Lock()
+	defer cr.lock.Unlock()
 	client, ok := cr.clients.Get(clientId)
 	if ok {
 		return client.(*protocol.Client)
@@ -57,10 +66,14 @@ func (cr ClientRegister) GetClient(clientId string) *protocol.Client {
 /* Front for SubscriptionRegister */
 
 func (cr ClientRegister) AddSubscription(clientId string, patterns []string) {
+	cr.lock.Lock()
+	defer cr.lock.Unlock()
 	cr.subscriptionRegister.AddSubscription(clientId, patterns)
 }
 
 func (cr ClientRegister) RemoveSubscription(clientId string, patterns []string) {
+	cr.lock.Lock()
+	defer cr.lock.Unlock()
 	cr.subscriptionRegister.RemoveSubscription(clientId, patterns)
 }
 
