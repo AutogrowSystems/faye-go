@@ -138,18 +138,18 @@ func (m Engine) Disconnect(request protocol.Message, client *protocol.Client, co
 }
 
 func (m Engine) Publish(request protocol.Message, conn protocol.Connection) {
-	requestingClient := m.clients.GetClient(request.ClientId())
-
-	if requestingClient == nil {
-		m.logger.Warnf("PUBLISH from unknown client %s", request)
-		return
-	}
 
 	response := m.responseFromRequest(request)
 	response["successful"] = true
 	data := request["data"]
 	channel := request.Channel()
 	response.SetClientId(request.ClientId())
+
+	if m.clients.GetClient(request.ClientId()) == nil {
+		m.logger.Warnf("PUBLISH from unknown client %s", request)
+		m.failAndAdvise("handshake", response, conn)
+		return
+	}
 
 	m.logger.Debugf("Publish request from %s to %s", request.ClientId(), channel.Name())
 
@@ -171,6 +171,15 @@ func (m Engine) Publish(request protocol.Message, conn protocol.Connection) {
 	}()
 
 }
+
+func (m Engine) failAndAdvise(reconnect string, response protocol.Message, conn protocol.Connection) {
+	advice := protocol.DEFAULT_ADVICE
+	advice["reconnect"] = reconnect
+	response["advice"] = advice
+	response["successful"] = false
+
+	m.logger.Warnf("Advising %s to reconnect via %s", response.ClientId(), reconnect)
+	conn.Send([]protocol.Message{response})
 }
 
 // Publish message directly to client
