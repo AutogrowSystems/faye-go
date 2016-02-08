@@ -16,6 +16,7 @@ type MemoryNamespace struct {
 func NewMemoryNamespace() MemoryNamespace {
 	return MemoryNamespace{
 		idMap: make(map[string]bool),
+		mutex: sync.RWMutex{},
 	}
 }
 
@@ -36,12 +37,17 @@ func (m MemoryNamespace) Generate() string {
 	for {
 		newId := m.generate()
 		if !m.IsUsed(newId) {
+			m.mutex.Lock()
 			m.idMap[newId] = true
+			m.mutex.Unlock()
 			return newId
 		}
 	}
+
 }
 
 func (m MemoryNamespace) Expire(id string) {
+	m.mutex.Lock()
+	defer m.mutex.Unlock()
 	delete(m.idMap, id)
 }
