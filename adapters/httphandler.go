@@ -36,7 +36,6 @@ func FayeHandler(server faye.Server) http.Handler {
 
 					// start the long poll server
 					transport.MakeLongPoll(v, server, w)
-					server.Logger().Warnf("Long poll server stopped")
 				} else {
 					server.Logger().Fatalf("ERROR: %s", err)
 				}
