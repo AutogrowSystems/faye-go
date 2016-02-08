@@ -9,10 +9,42 @@ import (
 	"strconv"
 )
 
+// type Extension interface {
+// 	In(protocol.Message) protocol.Message
+// 	Out(protocol.Message) protocol.Message
+// }
+
+// type Extensions []Extension
+
+// func (e Extensions) processIncoming(msg protocol.Message) protocol.Message {
+// 	for _, extn := range e {
+// 		msg := e.In(msg)
+// 	}
+
+// 	return msg
+// }
+
+// func (e Extensions) processIncoming(msg protocol.Message) protocol.Message {
+// 	for _, extn := range e {
+// 		msg := e.In(msg)
+// 	}
+
+// 	return msg
+// }
+
+// func (e Extensions) processOutgoing(msg protocol.Message) protocol.Message {
+// 	for _, extn := range e {
+// 		msg := e.Out(msg)
+// 	}
+
+// 	return msg
+// }
+
 type Engine struct {
 	ns      memory.MemoryNamespace
 	clients *memory.ClientRegister
 	logger  utils.Logger
+	// extns   Extensions
 }
 
 func NewEngine(logger utils.Logger) Engine {
@@ -22,6 +54,10 @@ func NewEngine(logger utils.Logger) Engine {
 		logger:  logger,
 	}
 }
+
+// func (m Engine) AddExtension(extn Extension) {
+// 	m.extensions = append(m.extensions, extn)
+// }
 
 func (m Engine) responseFromRequest(request protocol.Message) protocol.Message {
 	response := protocol.Message{}
