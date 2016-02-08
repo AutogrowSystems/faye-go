@@ -1,6 +1,6 @@
 # Faye server in Go
 
-This is a Faye server written it in go.  It is still experimental at this stage, but it is stable.  The Bayeux Spec can be found here: [http://autogrowsystems.github.io/faye-go/](http://autogrowsystems.github.io/faye-go/)
+This is a [Faye server](http://faye.jcoglan.com) written it in go.  It is still experimental at this stage, but it is stable.  The Bayeux Spec can be found here: [http://autogrowsystems.github.io/faye-go/](http://autogrowsystems.github.io/faye-go/)
 
 ## Build
 
