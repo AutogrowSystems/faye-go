@@ -22,7 +22,7 @@ func FayeHandler(server faye.Server) http.Handler {
 				http.Error(w, "Not a websocket handshake", 400)
 				return
 			} else if err != nil {
-				log.Println(err)
+				server.Logger().Errorf("ERROR: %s", err)
 				return
 			}
 
@@ -34,11 +34,12 @@ func FayeHandler(server faye.Server) http.Handler {
 				var v interface{}
 				dec := json.NewDecoder(r.Body)
 				if err := dec.Decode(&v); err == nil {
+
 					// start the long poll server
 					transport.MakeLongPoll(v, server, w)
 					server.Logger().Warnf("Long poll server stopped")
 				} else {
-					server.Logger().Fatalf(err)
+					server.Logger().Fatalf("ERROR: %s", err)
 				}
 			}
 		}
