@@ -48,7 +48,7 @@ type Client struct {
 	clientId    string
 	connection  Connection
 	msgStore    MsgStore
-	isConnected bool
+	isConnected bool         // refers to bayeux connect - true when client is waiting for connect response, false when done
 	responseMsg Message
 	mutex       sync.Mutex
 	lastSession *Session
@@ -90,7 +90,7 @@ func (c *Client) SetConnection(connection Connection) {
 	defer c.mutex.Unlock()
 
 	if c.connection == nil || connection.Priority() > c.connection.Priority() || connection.IsSingleShot() {
-		c.logger.Debugf("Setting connection on %s (%b)", c.clientId, connection.IsConnected())
+		c.logger.Debugf("Setting connection on %s connected(%t)", c.clientId, connection.IsConnected())
 		c.connection = connection
 		c.isConnected = true
 	}
@@ -158,6 +158,7 @@ func (c Client) flushMsgs() {
 				c.isConnected = false
 			}
 		}
+
 	} else {
 		c.logger.Debugf("Not connected to %s", c.clientId)
 	}

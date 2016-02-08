@@ -89,7 +89,7 @@ func (m Engine) AddSubscription(clientId string, subscriptions []string) {
 func (m Engine) Handshake(request protocol.Message, conn protocol.Connection) string {
 	newClientId := ""
 	version := request["version"].(string)
-	m.logger.Debugf("New handshake request received for Bayeux Protocol %s", version)
+	m.logger.Infof("New handshake request received for Bayeux Protocol %s", version)
 
 	response := m.responseFromRequest(request)
 	response["successful"] = false
@@ -110,6 +110,7 @@ func (m Engine) Handshake(request protocol.Message, conn protocol.Connection) st
 
 	} else {
 		response["error"] = fmt.Sprintf("Only supported version is '%s'", protocol.BAYEUX_VERSION)
+		m.logger.Warnf("Client tried to connect with version %s but only %s is supported", version, protocol.BAYEUX_VERSION)
 	}
 
 	// Answer directly
@@ -118,7 +119,7 @@ func (m Engine) Handshake(request protocol.Message, conn protocol.Connection) st
 }
 
 func (m Engine) Connect(request protocol.Message, client *protocol.Client, conn protocol.Connection) {
-	m.logger.Debugf("Connect request from %s", client.Id())
+	m.logger.Infof("Connect request from %s", client.Id())
 	response := m.responseFromRequest(request)
 	response["successful"] = true
 
@@ -139,7 +140,7 @@ func (m Engine) SubscribeService(chanOut chan<- protocol.Message, subscription [
 }
 
 func (m Engine) SubscribeClient(request protocol.Message, client *protocol.Client) {
-	m.logger.Debugf("Subscribe request from %s", client.Id())
+	m.logger.Infof("Subscribe request from %s", client.Id())
 	response := m.responseFromRequest(request)
 	response["successful"] = true
 
@@ -166,7 +167,7 @@ func (m Engine) SubscribeClient(request protocol.Message, client *protocol.Clien
 }
 
 func (m Engine) Disconnect(request protocol.Message, client *protocol.Client, conn protocol.Connection) {
-	m.logger.Debugf("Disconnect request from %s", client.Id())
+	m.logger.Infof("Disconnect request from %s", client.Id())
 	response := m.responseFromRequest(request)
 	response["successful"] = true
 	clientId := request.ClientId()
@@ -187,7 +188,7 @@ func (m Engine) Publish(request protocol.Message, conn protocol.Connection) {
 		return
 	}
 
-	m.logger.Debugf("Publish request from %s to %s", request.ClientId(), channel.Name())
+	m.logger.Infof("Publish request from %s to %s", request.ClientId(), channel.Name())
 
 	conn.Send([]protocol.Message{response})
 
