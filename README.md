@@ -30,7 +30,7 @@ Simply run it like so:
 
 ## Acknowledgements
 
-* [Ron Cohen](https://github.com/roncohen) - development of the actual server
+* [Ron Cohen](https://github.com/roncohen) - development of all the libraries that power the server
 
 ## Licence
 
