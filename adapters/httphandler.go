@@ -26,15 +26,19 @@ func FayeHandler(server faye.Server) http.Handler {
 				return
 			}
 
+			// Start the websocket server
 			transport.WebsocketServer(server)(ws)
+			server.Logger().Warnf("Websocket server stopped")
 		} else {
 			if r.Method == "POST" {
 				var v interface{}
 				dec := json.NewDecoder(r.Body)
 				if err := dec.Decode(&v); err == nil {
+					// start the long poll server
 					transport.MakeLongPoll(v, server, w)
+					server.Logger().Warnf("Long poll server stopped")
 				} else {
-					log.Fatal(err)
+					server.Logger().Fatalf(err)
 				}
 			}
 		}
