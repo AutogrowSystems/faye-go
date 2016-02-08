@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
-	"github.com/AutogrowSystems/faye-go"
-	"github.com/AutogrowSystems/faye-go/adapters"
+	"github.com/autogrowsystems/faye-go"
+	"github.com/autogrowsystems/faye-go/adapters"
 	l "github.com/cenkalti/log"
 	"net/http"
 )
@@ -27,7 +27,7 @@ func main() {
 
 	flag.StringVar(&cfg.Port, "p", "8000", "Port number to serve on")
 	flag.StringVar(&cfg.Host, "h", "127.0.0.1", "Port number to serve on")
-	flag.StringVar(&cfg.Public, "public", "src/github.com/AutogrowSystems/faye-go/public", "Port number to serve on")
+	flag.StringVar(&cfg.Public, "public", "src/github.com/autogrowsystems/faye-go/public", "Port number to serve on")
 	flag.Parse()
 
 	engineLog := l.NewLogger("engine")

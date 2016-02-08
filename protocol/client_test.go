@@ -1,8 +1,8 @@
 package protocol_test
 
 import (
-	"github.com/AutogrowSystems/faye-go/memory"
-	. "github.com/AutogrowSystems/faye-go/protocol"
+	"github.com/autogrowsystems/faye-go/memory"
+	. "github.com/autogrowsystems/faye-go/protocol"
 	"log"
 	"os"
 	"testing"

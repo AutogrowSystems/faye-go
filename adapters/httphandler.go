@@ -3,10 +3,9 @@ package adapters
 import (
 	// "code.google.com/p/go.net/websocket"
 	"encoding/json"
-	"github.com/AutogrowSystems/faye-go"
-	"github.com/AutogrowSystems/faye-go/transport"
+	"github.com/autogrowsystems/faye-go"
+	"github.com/autogrowsystems/faye-go/transport"
 	"github.com/gorilla/websocket"
-	"log"
 	"net/http"
 )
 

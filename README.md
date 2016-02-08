@@ -4,8 +4,8 @@ This is a Faye server written it in go.  It is still experimental at this stage.
 
 ## Build
 
-    $ go get github.com/AutogrowSystems/faye-go
-    $ GO15VENDOREXPIMENT=1 go build github.com/AutogrowSystems/faye-go/main/faye_server.go
+    $ go get github.com/autogrowsystems/faye-go
+    $ GO15VENDOREXPIMENT=1 go build github.com/autogrowsystems/faye-go/main/faye_server.go
 
 ## Run
 
@@ -17,7 +17,7 @@ Here's the usage for it:
       -p string
         	Port number to serve on (default "8000")
       -public string
-        	Port number to serve on (default "src/github.com/AutogrowSystems/faye-go/public")
+        	Port number to serve on (default "src/github.com/autogrowsystems/faye-go/public")
 
 Simply run it like so:
 

@@ -2,10 +2,10 @@ package faye
 
 import (
 	"fmt"
-	"github.com/AutogrowSystems/faye-go/memory"
-	"github.com/AutogrowSystems/faye-go/protocol"
-	"github.com/AutogrowSystems/faye-go/transport"
-	"github.com/AutogrowSystems/faye-go/utils"
+	"github.com/autogrowsystems/faye-go/memory"
+	"github.com/autogrowsystems/faye-go/protocol"
+	"github.com/autogrowsystems/faye-go/transport"
+	"github.com/autogrowsystems/faye-go/utils"
 	"strconv"
 )
 

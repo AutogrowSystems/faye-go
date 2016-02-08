@@ -1,7 +1,7 @@
 package transport
 
 import (
-	"github.com/AutogrowSystems/faye-go/protocol"
+	"github.com/autogrowsystems/faye-go/protocol"
 	"testing"
 )
 

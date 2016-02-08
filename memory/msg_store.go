@@ -2,7 +2,7 @@ package memory
 
 import (
 	"container/list"
-	"github.com/AutogrowSystems/faye-go/protocol"
+	"github.com/autogrowsystems/faye-go/protocol"
 	"sync"
 )
 

@@ -1,7 +1,7 @@
 package protocol
 
 import (
-	"github.com/AutogrowSystems/faye-go/utils"
+	"github.com/autogrowsystems/faye-go/utils"
 	"reflect"
 	"sync"
 	"time"
