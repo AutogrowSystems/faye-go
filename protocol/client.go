@@ -89,7 +89,8 @@ func (c *Client) SetConnection(connection Connection) {
 	c.mutex.Lock()
 	defer c.mutex.Unlock()
 
-	if c.connection == nil || connection.Priority() > c.connection.Priority() {
+	if c.connection == nil || connection.Priority() > c.connection.Priority() || connection.IsSingleShot() {
+		c.logger.Debugf("Setting connection on %s (%b)", c.clientId, connection.IsConnected())
 		c.connection = connection
 		c.isConnected = true
 	}
